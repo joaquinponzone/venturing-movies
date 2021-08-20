@@ -17,15 +17,17 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
-require('dotenv').config();
+const server = require("./src/app.js");
+const { conn } = require("./src/db.js");
+require("dotenv").config();
 // const fetch = require("node-fetch");
 
-
 // Syncing all the models at once.
-conn.sync({ force: false }).then(() => {
-  server.listen(3001, () => {
-    console.log(`listening at 3001`); // eslint-disable-line no-console
-  });
-}).catch(err => console.log(err));
+conn
+  .sync({ force: false })
+  .then(() => {
+    server.listen(3001, () => {
+      console.log(`listening at 3001`); // eslint-disable-line no-console
+    });
+  })
+  .catch((err) => console.log(err));
