@@ -1,9 +1,9 @@
 import { Switch, Route } from "react-router-dom";
-import Home from "./components/Home/Home";
-import UploadMovies from "./components/UploadMovies/UploadMovies";
-import AddMovie from "./components/AddMovie/AddMovie";
-import Navigation from "./components/Navigation/Navigation";
-import EditMovie from "./components/EditMovie/EditMovie";
+import Home from "../components/Home/Home";
+import UploadMovies from "../components/UploadMovies/UploadMovies";
+import AddMovie from "../components/AddMovie/AddMovie";
+import Navigation from "../components/Navigation/Navigation";
+import EditMovie from "../components/EditMovie/EditMovie";
 
 function App() {
   return (

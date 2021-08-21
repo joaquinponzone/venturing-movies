@@ -1,1 +1,1 @@
-GET http://localhost:3001/movies?search=hard
+GET http://localhost:3001/movies?page=2&limit=2

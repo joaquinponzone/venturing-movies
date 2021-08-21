@@ -46,12 +46,9 @@ function MoviesTable({ movies, fileName }) {
       <DataGrid
         autoHeight
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        rows={movies?.map((movie, index) => {
-          return { ...movie, id: index };
-        })}
+        rows={movies}
         className={classes.dataGrid}
+        // hideFooter
       />
     </Paper>
   );
