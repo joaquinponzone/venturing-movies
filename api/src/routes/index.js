@@ -1,15 +1,19 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
 // Importar todos los routers;
 const router = Router();
 
 // Configurar los routers
-const { 
-    getMovies,
-    postNewMovies,
-} = require('../controllers/movies.controllers');
+const {
+  getMovies,
+  uploadMovies,
+  addMovie,
+  editMovie,
+} = require("../controllers/movies.controllers");
 
-router.get('/', getMovies)
-router.post('/upload', postNewMovies)
+router.get("/movies", getMovies);
+router.post("/upload", uploadMovies);
+router.post("/add", addMovie);
+router.put("/edit", editMovie);
 
 module.exports = router;
