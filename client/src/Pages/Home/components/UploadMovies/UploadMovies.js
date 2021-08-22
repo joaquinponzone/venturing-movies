@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Papa from "papaparse";
 import { makeStyles, Paper, Button } from "@material-ui/core";
-import MoviesTable from "../Atoms/MoviesTable";
-import Title from "../Atoms/Title";
+import MoviesTable from "../../components/Atoms/MoviesTable";
 
 const useStyles = makeStyles({
   root: {
@@ -25,9 +24,8 @@ const useStyles = makeStyles({
   },
 });
 
-const baseURL = "http://localhost:3001/upload";
-
 const saveMovies = async (movies) => {
+  const baseURL = "http://localhost:3001/upload";
   const rawResponse = await fetch(baseURL, {
     method: "POST",
     headers: {

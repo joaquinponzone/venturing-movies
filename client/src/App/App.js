@@ -1,29 +1,16 @@
-import { Switch, Route } from "react-router-dom";
-import Home from "../components/Home/Home";
-import UploadMovies from "../components/UploadMovies/UploadMovies";
-import AddMovie from "../components/AddMovie/AddMovie";
-import Navigation from "../components/Navigation/Navigation";
-import EditMovie from "../components/EditMovie/EditMovie";
+import { Home } from "../Pages/Home/Home";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 function App() {
   return (
-    <div>
-      <Navigation />
-      <Switch>
-        <Route exact path="/">
+    <>
+      <Container maxWidth="lg" width="%100">
+        <Box sx={{ my: 4, backgroundColor: "primary.main" }}>
           <Home />
-        </Route>
-        <Route path="/upload">
-          <UploadMovies />
-        </Route>
-        <Route path="/add">
-          <AddMovie />
-        </Route>
-        <Route path="/edit">
-          <EditMovie />
-        </Route>
-      </Switch>
-    </div>
+        </Box>
+      </Container>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export const getMovies = async () => {
-  await axios.get(`http://localhost:3001/movies`);
+export const getMovies = async (URL, options) => {
+  await axios.get(URL, options);
 };

@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import { DataGrid } from "@material-ui/data-grid";
-import { makeStyles, Paper } from "@material-ui/core";
-import Title from "../Atoms/Title";
+import { makeStyles, Paper, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles({
   paper: {
@@ -32,7 +30,7 @@ const columns = [
     field: "description",
     headerName: "Description",
     minWidth: 400,
-    flex: 4,
+    flex: 3,
   },
   { field: "year", headerName: "Year", minWidth: 120, flex: 1 },
 ];
@@ -42,7 +40,7 @@ function MoviesTable({ movies, fileName }) {
 
   return (
     <Paper elevation={3} className={classes.paper}>
-      {fileName && <Title>{`File: "${fileName}"`}</Title>}
+      {fileName && <Typography>{`File: "${fileName}"`}</Typography>}
       <DataGrid
         autoHeight
         columns={columns}
