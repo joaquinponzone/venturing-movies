@@ -2,13 +2,13 @@ const { Movie } = require("../db");
 const { Op } = require("sequelize");
 
 const getMovies = async (req, res) => {
+  console.log(req.query);
   //Pagination
-  const page = req.query.page || 1;
-  const limit = req.query.limit || 15;
+  const page = req.query.page;
+  const limit = req.query.limit;
   const searchQuery = req.query.search;
   const startIndex = ((page - 1) * limit) | 0;
   const endIndex = page * limit;
-
   try {
     // DB Search
     const searchDB = !searchQuery
@@ -21,7 +21,14 @@ const getMovies = async (req, res) => {
           },
         });
     // Response
-    res.send(!searchQuery ? searchDB?.slice(startIndex, endIndex) : searchDB);
+    let responseData = !searchQuery
+      ? searchDB?.slice(startIndex, endIndex)
+      : searchDB;
+    res.send({
+      count: searchDB.length,
+      pages: searchDB.length > limit ? Math.ceil(searchDB.length / limit) : 1,
+      movies: responseData,
+    });
   } catch (err) {
     res.status(400).send(console.log(err));
   }
@@ -45,36 +52,7 @@ const uploadMovies = async (req, res) => {
   }
 };
 
-const addMovie = async (req, res) => {
-  console.log(req.body);
-  try {
-    let newMovie = await Movie.create(req.body);
-    res.send(newMovie);
-  } catch (error) {
-    res.status(400).send(console.log(err));
-  }
-};
-
-const editMovie = async (req, res) => {
-  const newMovie = req.body;
-  try {
-    // Edit movie in DB
-    let movieToUpdate = await Movie.findOne({
-      where: {
-        id: `${newMovie.id}`,
-      },
-    });
-    console.log(movieToUpdate);
-    let updatedMovie = await movieToUpdate.update(newMovie);
-    res.send(updatedMovie);
-  } catch (err) {
-    res.status(400).send(console.log(err));
-  }
-};
-
 module.exports = {
   getMovies,
   uploadMovies,
-  addMovie,
-  editMovie,
 };
