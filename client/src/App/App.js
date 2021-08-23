@@ -1,15 +1,22 @@
 import { Home } from "../Pages/Home/Home";
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
+import Movies from "../Pages/Movies/Movies";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  appMain: {
+    minWidth: 400,
+    width: "100%",
+  },
+});
 
 function App() {
+  const classes = useStyles();
+
   return (
     <>
-      <Container maxWidth="lg" width="%100">
-        <Box sx={{ my: 4, backgroundColor: "primary.main" }}>
-          <Home />
-        </Box>
-      </Container>
+      <div className={classes.appMain}>
+        <Movies />
+      </div>
     </>
   );
 }

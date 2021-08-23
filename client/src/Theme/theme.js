@@ -1,17 +1,30 @@
-import { red } from "@material-ui/core/colors";
 import { createTheme } from "@material-ui/core/styles";
 
 // A custom theme for this app
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#333996",
+      light: "#3c44b126",
     },
     secondary: {
-      main: "#19857b",
+      main: "#f83245",
+      light: "#f8324526",
     },
-    error: {
-      main: red.A400,
+    background: {
+      default: "#f4f5fd",
+    },
+  },
+  overrides: {
+    MuiAppBar: {
+      root: {
+        transform: "translateZ(0)",
+      },
+    },
+  },
+  props: {
+    MuiIconButton: {
+      disableRipple: true,
     },
   },
 });
