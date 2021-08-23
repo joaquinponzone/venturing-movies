@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+// import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import App from "./App/App";
 // import reportWebVitals from "./reportWebVitals";
@@ -8,12 +8,12 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "./Theme/theme";
 
 ReactDOM.render(
-  <StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </StrictMode>,
+  // <StrictMode>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <App />
+  </ThemeProvider>,
+  // </StrictMode>,
   document.getElementById("root")
 );
 

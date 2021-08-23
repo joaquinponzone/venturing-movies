@@ -10,14 +10,14 @@ import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#fff",
+    backgroundColor: theme.palette.background,
   },
   searchInput: {
     opacity: "0.6",
     padding: `0px ${theme.spacing(1)}px`,
     fontSize: "0.8rem",
     "&:hover": {
-      backgroundColor: "#f2f2f2",
+      backgroundColor: theme.palette.primary.main,
     },
     "& .MuiSvgIcon-root": {
       marginRight: theme.spacing(1),

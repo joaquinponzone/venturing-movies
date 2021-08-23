@@ -1,4 +1,3 @@
-import { Home } from "../Pages/Home/Home";
 import Movies from "../Pages/Movies/Movies";
 import { makeStyles } from "@material-ui/core";
 

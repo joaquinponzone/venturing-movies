@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
   const classes = useStyles();
-  const [movieToDelete] = useState(openModal.itemForDelete);
 
-  const handleDelete = () => {
+  const handleDelete = async (event) => {
+    event.preventDefault();
     axios
-      .delete("http://localhost:3001/movie/delete", { data: movieToDelete })
+      .delete(`http://localhost:3001/movie/delete`, { data: openModal.item })
       .then(() => {
         setNotify({
           isOpen: true,
@@ -33,11 +33,7 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
   };
 
   return (
-    <form
-      className={classes.root}
-      autoComplete="off"
-      onSubmit={() => handleDelete()}
-    >
+    <form className={classes.root} autoComplete="off">
       <Grid container direction="column" alignItems="center">
         <Grid item>
           <Typography variant="h6">
@@ -45,7 +41,7 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
               <WarningIcon fontSize="large" color="secondary" />
             </Box>
             <Box textAlign="center" m={1}>
-              Sure you want to delete {movieToDelete.title}?
+              Sure you want to delete {openModal.item.title}?
             </Box>
           </Typography>
         </Grid>
@@ -58,8 +54,12 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
           <Controls.Button
             text="Delete"
             variant="outlined"
-            type="submit"
+            // type="submit"
             color="secondary"
+            onClick={(e) => {
+              handleDelete(e);
+              setOpenModal({ ...openModal, delete: false });
+            }}
           />
         </Grid>
       </Grid>

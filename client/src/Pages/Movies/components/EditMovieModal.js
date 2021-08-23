@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
   const classes = useStyles();
-  const [movieToEdit, setMovieToEdit] = useState(openModal.itemForEdit);
+  const [movieToEdit, setMovieToEdit] = useState(openModal.item);
 
   const handleChange = (event) => {
     setMovieToEdit({ ...movieToEdit, [event.target.name]: event.target.value });

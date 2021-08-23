@@ -3,7 +3,7 @@ import { Paper, Card, Typography, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#fdfdff",
+    backgroundColor: theme.palette.background,
   },
   pageHeader: {
     padding: theme.spacing(4),
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   pageIcon: {
     display: "inline-block",
     padding: theme.spacing(2),
-    color: "#3c44b1",
+    color: theme.palette.primary.main,
   },
   pageTitle: {
     paddingLeft: theme.spacing(4),

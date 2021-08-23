@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+//Import Dependencies
+import { useEffect, useState } from "react";
 import axios from "axios";
-import AddMovieForm from "./components/AddMovieForm";
-import UploadMoviesModal from "./components/UploadMoviesModal";
-import EditMovieModal from "./components/EditMovieModal";
-import DeleteMovieModal from "./components/DeleteMovieModal";
-import PageHeader from "../../Components/PageHeader";
-import LocalMoviesIcon from "@material-ui/icons/LocalMovies";
 import {
   Paper,
   makeStyles,
@@ -16,16 +11,27 @@ import {
   InputAdornment,
   Table,
   TableHead,
+  Select,
+  MenuItem,
+  Typography,
 } from "@material-ui/core";
-import Controls from "../../Components/controls/Controls";
-import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import Popup from "../../Components/Popup";
-import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import CloseIcon from "@material-ui/icons/Close";
-import Notification from "../../Components/Notification";
-import * as moviesServices from "../../services/moviesServices";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import LocalMoviesTwoToneIcon from "@material-ui/icons/LocalMoviesTwoTone";
+
+import { Search } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
+
+//Import Components
+import AddMovieForm from "./components/AddMovieForm";
+import UploadMoviesModal from "./components/UploadMoviesModal";
+import EditMovieModal from "./components/EditMovieModal";
+import DeleteMovieModal from "./components/DeleteMovieModal";
+import PageHeader from "../../Components/PageHeader";
+import Controls from "../../Components/controls/Controls";
+import Notification from "../../Components/Notification";
+import Popup from "../../Components/Popup";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -52,70 +58,66 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: "300",
     },
     "& tbody tr:hover": {
-      backgroundColor: "#fffbf2",
+      backgroundColor: theme.palette.selection.main,
       cursor: "pointer",
     },
   },
-  pagination: {
-    "& > *": {
-      marginTop: theme.spacing(2),
-    },
+  paginationContainer: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
+  },
+  pageSize: {
+    margin: theme.spacing(2),
+    "& .MuiOutlinedInput-root": {
+      height: "2rem",
+    },
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
 }));
 
-const headCells = [
-  { id: "title", label: "Title" },
-  { id: "description", label: "Description" },
-  { id: "year", label: "Release Year" },
-  { id: "action", label: "Actions" },
-];
-
 export default function Movies() {
   const classes = useStyles();
+
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [movies, setMovies] = useState();
   const [search, setSearch] = useState("");
   const [openModal, setOpenModal] = useState({
     upload: false,
     add: false,
     edit: false,
-    itemForEdit: null,
     delete: false,
-    itemForDelete: null,
+    item: null,
   });
+
+  useEffect(() => {
+    const baseURL = `http://localhost:3001/movies?page=${page}&limit=${pageSize}${
+      search && `&search=${search}`
+    }`;
+    axios.get(baseURL).then((response) => {
+      setTotalPages(response.data.pages);
+      setMovies(response.data.movies);
+    });
+  }, [page, search, openModal, pageSize]);
 
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-  const [confirmDialog, setConfirmDialog] = useState({
-    item: null,
-    title: "",
-    subTitle: "",
-  });
 
-  const pageSize = [5, 10, 25];
-  const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(pageSize[page]);
-
-  useEffect(() => {
-    const baseURL = `http://localhost:3001/movies?page=${page}&limit=${rowsPerPage}${
-      search && `&search=${search}`
-    }`;
-    axios.get(baseURL).then((response) => {
-      let moviesFetched = response.data;
-      setMovies(moviesFetched);
-    });
-  }, [page, rowsPerPage, search, openModal]);
+  useEffect(() => {}, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value);
+  const handleChangePageSize = (event) => {
+    setPageSize(event.target.value);
     setPage(1);
   };
 
@@ -123,19 +125,27 @@ export default function Movies() {
     setSearch(e.target.value);
   };
 
-  const openEditModal = (item) => {
-    setOpenModal({ ...openModal, edit: true, itemForEdit: item });
+  const openActionModal = (item, action) => {
+    setOpenModal({ ...openModal, item, [action]: true });
+
+    // action === "edit"
+    //   ? setOpenModal({ ...openModal, edit: true })
+    //   : setOpenModal({ ...openModal, delete: true });
   };
-  const openDeleteModal = (item) => {
-    setOpenModal({ ...openModal, delete: true, itemForDelete: item });
-  };
+
+  const headCells = [
+    { id: "title", label: "Title" },
+    { id: "description", label: "Description" },
+    { id: "year", label: "Release Year" },
+    { id: "action", label: "Actions" },
+  ];
 
   return (
     <>
       <PageHeader
         title="Movies DB"
         subTitle="Movies DataBase"
-        icon={<LocalMoviesIcon fontSize="large" />}
+        icon={<LocalMoviesTwoToneIcon fontSize="large" />}
       />
       <Paper elevation={1} className={classes.pageContent}>
         <Toolbar className={classes.toolBar}>
@@ -184,7 +194,7 @@ export default function Movies() {
                   <Controls.ActionButton
                     color="primary"
                     onClick={() => {
-                      openEditModal(item);
+                      openActionModal(item, "edit");
                     }}
                   >
                     <EditOutlinedIcon fontSize="small" />
@@ -192,7 +202,7 @@ export default function Movies() {
                   <Controls.ActionButton
                     color="secondary"
                     onClick={() => {
-                      openDeleteModal(item);
+                      openActionModal(item, "delete");
                     }}
                   >
                     <CloseIcon fontSize="small" />
@@ -202,18 +212,38 @@ export default function Movies() {
             ))}
           </TableBody>
         </Table>
-
-        <div className={classes.pagination}>
+        <div className={classes.paginationContainer}>
           <Pagination
-            count={
-              movies?.length > rowsPerPage ? movies.length / rowsPerPage : 1
-            }
+            count={totalPages}
             page={page}
             variant="outlined"
             shape="rounded"
+            size="large"
+            showFirstButton
+            showLastButton
+            onChange={handleChangePage}
           />
+          <div className={classes.pageSize}>
+            <Typography
+              variant="subtitle1"
+              style={{ fontWeight: "300", margin: "1rem" }}
+            >
+              Page Size:{" "}
+            </Typography>
+            <Select
+              value={pageSize}
+              onChange={handleChangePageSize}
+              variant="outlined"
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+            </Select>
+          </div>
         </div>
       </Paper>
+
+      {/* PopUps */}
       <Popup
         title="Upload Movies"
         open={openModal.upload}
@@ -221,11 +251,9 @@ export default function Movies() {
       >
         <UploadMoviesModal setOpenModal={setOpenModal} setNotify={setNotify} />
       </Popup>
-
       <Popup title="Add Movie" open={openModal.add} setOpen={setOpenModal}>
         <AddMovieForm setOpenModal={setOpenModal} setNotify={setNotify} />
       </Popup>
-
       <Popup title="Edit Movie" open={openModal.edit} setOpen={setOpenModal}>
         <EditMovieModal
           openModal={openModal}
@@ -233,7 +261,6 @@ export default function Movies() {
           setNotify={setNotify}
         />
       </Popup>
-
       <Popup
         title="Delete Movie"
         open={openModal.delete}
@@ -245,17 +272,7 @@ export default function Movies() {
           setNotify={setNotify}
         />
       </Popup>
-
       <Notification notify={notify} setNotify={setNotify} />
-
-      {/* <ConfirmDialog
-        open={openModal.delete}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        confirmDialog={confirmDialog}
-        setConfirmDialog={setConfirmDialog}
-        setNotify={setNotify}
-      /> */}
     </>
   );
 }

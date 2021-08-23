@@ -32,7 +32,6 @@ const editMovie = async (req, res) => {
         id: `${newMovie.id}`,
       },
     });
-    console.log(movieToUpdate);
     let updatedMovie = await movieToUpdate.update(newMovie);
     res.send(updatedMovie);
   } catch (err) {
@@ -41,13 +40,17 @@ const editMovie = async (req, res) => {
 };
 
 const deleteMovie = async (req, res) => {
+  const movie = req.body;
   try {
-    // Erease movie from DB
-    await Movie.destroy({
+    // Delete movie from DB
+    let movieToDelete = await Movie.findOne({
       where: {
-        id: req.body.id,
+        id: `${movie.id}`,
       },
     });
+    console.log(movieToDelete);
+    let deletedMovie = await movieToDelete.destroy();
+    res.send(deletedMovie);
   } catch (err) {
     res.status(400).send(console.log(err));
   }
