@@ -1,29 +1,22 @@
-import { Switch, Route } from "react-router-dom";
-import Home from "../components/Home/Home";
-import UploadMovies from "../components/UploadMovies/UploadMovies";
-import AddMovie from "../components/AddMovie/AddMovie";
-import Navigation from "../components/Navigation/Navigation";
-import EditMovie from "../components/EditMovie/EditMovie";
+import Movies from "../Pages/Movies/Movies";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  appMain: {
+    minWidth: 400,
+    width: "100%",
+  },
+});
 
 function App() {
+  const classes = useStyles();
+
   return (
-    <div>
-      <Navigation />
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/upload">
-          <UploadMovies />
-        </Route>
-        <Route path="/add">
-          <AddMovie />
-        </Route>
-        <Route path="/edit">
-          <EditMovie />
-        </Route>
-      </Switch>
-    </div>
+    <>
+      <div className={classes.appMain}>
+        <Movies />
+      </div>
+    </>
   );
 }
 
