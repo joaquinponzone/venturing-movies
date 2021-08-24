@@ -20,7 +20,7 @@ export default function AddMovieForm({ openModal, setOpenModal, setNotify }) {
   const [newMovie, setNewMovie] = useState({
     title: "",
     description: "",
-    year: 0,
+    year: null,
   });
   const handleChange = (event) => {
     setNewMovie({ ...newMovie, [event.target.name]: event.target.value });
