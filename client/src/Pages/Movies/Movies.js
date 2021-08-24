@@ -14,6 +14,7 @@ import {
   Select,
   MenuItem,
   Typography,
+  Grid,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
@@ -37,15 +38,39 @@ const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
+    width: "%80",
+    [theme.breakpoints.down("sm")]: {
+      margin: theme.spacing(3, 0),
+    },
   },
   toolBar: {
     width: "100%",
+    display: "flex",
+    // flexDirection: "column",
   },
   searchInput: {
-    minWidth: 300,
-    width: "50%",
-    display: "flex",
-    marginRight: "4rem",
+    marginRight: theme.spacing(3),
+    marginTop: theme.spacing(0.5),
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "0",
+      marginBottom: theme.spacing(3),
+    },
+    minWidth: "155px",
+    height: "3.2rem",
+  },
+  uploadButton: {
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "0",
+      marginBottom: theme.spacing(3),
+    },
+  },
+  addButton: {
+    marginRight: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "0",
+      marginBottom: theme.spacing(3),
+    },
   },
   table: {
     marginTop: theme.spacing(3),
@@ -66,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
   },
   pageSize: {
     margin: theme.spacing(2),
@@ -127,17 +155,13 @@ export default function Movies() {
 
   const openActionModal = (item, action) => {
     setOpenModal({ ...openModal, item, [action]: true });
-
-    // action === "edit"
-    //   ? setOpenModal({ ...openModal, edit: true })
-    //   : setOpenModal({ ...openModal, delete: true });
   };
 
   const headCells = [
+    { id: "action", label: "Actions" },
     { id: "title", label: "Title" },
     { id: "description", label: "Description" },
     { id: "year", label: "Release Year" },
-    { id: "action", label: "Actions" },
   ];
 
   return (
@@ -148,106 +172,124 @@ export default function Movies() {
         icon={<LocalMoviesTwoToneIcon fontSize="large" />}
       />
       <Paper elevation={1} className={classes.pageContent}>
-        <Toolbar className={classes.toolBar}>
-          <Controls.Input
-            label="Search Movies"
-            className={classes.searchInput}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
-            onChange={handleSearch}
-          />
-          <Controls.Button
-            text="Upload .csv"
-            variant="outlined"
-            startIcon={<AddIcon />}
-            className={classes.uploadButton}
-            onClick={() => setOpenModal({ ...openModal, upload: true })}
-          />
-          <Controls.Button
-            text="Add Movie"
-            variant="outlined"
-            startIcon={<AddIcon />}
-            className={classes.newButton}
-            onClick={() => setOpenModal({ ...openModal, add: true })}
-          />
-        </Toolbar>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              {headCells.map((headCell) => (
-                <TableCell key={headCell.id}>{headCell.label}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {movies?.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.title}</TableCell>
-                <TableCell>{item.description}</TableCell>
-                <TableCell>{item.year}</TableCell>
-                <TableCell>
-                  <Controls.ActionButton
-                    color="primary"
-                    onClick={() => {
-                      openActionModal(item, "edit");
+        <Grid
+          container
+          spacing={3}
+          style={{ overflowY: "hidden" }}
+          flexDirection="row"
+        >
+          <Grid item sm={12}>
+            <Toolbar className={classes.toolBar}>
+              <Grid container justifyContent="center" alignContent="center">
+                <Grid item xs={12} md={3} className={classes.searchInput}>
+                  <Controls.Input
+                    label="Search Movies"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Search />
+                        </InputAdornment>
+                      ),
                     }}
-                  >
-                    <EditOutlinedIcon fontSize="small" />
-                  </Controls.ActionButton>
-                  <Controls.ActionButton
-                    color="secondary"
-                    onClick={() => {
-                      openActionModal(item, "delete");
-                    }}
-                  >
-                    <CloseIcon fontSize="small" />
-                  </Controls.ActionButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <div className={classes.paginationContainer}>
-          <Pagination
-            count={totalPages}
-            page={page}
-            variant="outlined"
-            shape="rounded"
-            size="large"
-            showFirstButton
-            showLastButton
-            onChange={handleChangePage}
-          />
-          <div className={classes.pageSize}>
-            <Typography
-              variant="subtitle1"
-              style={{ fontWeight: "300", margin: "1rem" }}
-            >
-              Page Size:{" "}
-            </Typography>
-            <Select
-              value={pageSize}
-              onChange={handleChangePageSize}
-              variant="outlined"
-            >
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={30}>30</MenuItem>
-            </Select>
-          </div>
-        </div>
+                    onChange={handleSearch}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} className={classes.uploadButton}>
+                  <Controls.Button
+                    text="Upload .csv"
+                    variant="outlined"
+                    startIcon={<AddIcon />}
+                    onClick={() => setOpenModal({ ...openModal, upload: true })}
+                  />
+                </Grid>
+                <Grid item xs={12} md={3} className={classes.addButton}>
+                  <Controls.Button
+                    text="Add Movie"
+                    variant="outlined"
+                    startIcon={<AddIcon />}
+                    onClick={() => setOpenModal({ ...openModal, add: true })}
+                  />
+                </Grid>
+              </Grid>
+            </Toolbar>
+          </Grid>
+          <Grid item sm={12}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  {headCells.map((headCell) => (
+                    <TableCell key={headCell.id}>{headCell.label}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {movies?.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <Controls.ActionButton
+                        color="primary"
+                        onClick={() => {
+                          openActionModal(item, "edit");
+                        }}
+                      >
+                        <EditOutlinedIcon fontSize="small" />
+                      </Controls.ActionButton>
+                      <Controls.ActionButton
+                        color="secondary"
+                        onClick={() => {
+                          openActionModal(item, "delete");
+                        }}
+                      >
+                        <CloseIcon fontSize="small" />
+                      </Controls.ActionButton>
+                    </TableCell>
+                    <TableCell>{item.title}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.year}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+          <Grid item sm={12}>
+            <div className={classes.paginationContainer}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                variant="outlined"
+                shape="rounded"
+                size="large"
+                showFirstButton
+                showLastButton
+                onChange={handleChangePage}
+              />
+              <div className={classes.pageSize}>
+                <Typography
+                  variant="subtitle1"
+                  style={{ fontWeight: "300", margin: "1rem" }}
+                >
+                  Page Size:{" "}
+                </Typography>
+                <Select
+                  value={pageSize}
+                  onChange={handleChangePageSize}
+                  variant="outlined"
+                >
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={30}>30</MenuItem>
+                </Select>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </Paper>
 
       {/* PopUps */}
       <Popup
         title="Upload Movies"
         open={openModal.upload}
-        setOpenModal={setOpenModal}
+        setOpen={setOpenModal}
       >
         <UploadMoviesModal setOpenModal={setOpenModal} setNotify={setNotify} />
       </Popup>

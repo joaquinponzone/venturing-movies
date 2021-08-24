@@ -4,6 +4,8 @@ import { Button as MuiButton, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(0.5),
+    minWidth: "155px",
+    height: "55px",
   },
   label: {
     textTransform: "none",
@@ -16,6 +18,7 @@ export default function Button(props) {
 
   return (
     <MuiButton
+      fullWidth
       variant={variant || "contained"}
       size={size || "large"}
       color={color || "primary"}

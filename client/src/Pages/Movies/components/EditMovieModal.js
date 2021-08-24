@@ -1,8 +1,9 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Snackbar, Typography } from "@material-ui/core";
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import Controls from "../../../Components/controls/Controls";
 import axios from "axios";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const [movieToEdit, setMovieToEdit] = useState(openModal.item);
 
   const handleChange = (event) => {
@@ -33,7 +35,10 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
         });
         setOpenModal({ ...openModal, edit: false });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setOpen(true);
+      });
   };
 
   return (
@@ -67,6 +72,19 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
         <Grid item>
           <Controls.Button text="Submit" variant="outlined" type="submit" />
         </Grid>
+        <Snackbar
+          open={open}
+          onClose={() => setOpen(false)}
+          autoHideDuration={4000}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+        >
+          <Alert onClose={() => setOpen(false)} severity="error">
+            <Typography>Title already exists!</Typography>
+          </Alert>
+        </Snackbar>
       </Grid>
     </form>
   );

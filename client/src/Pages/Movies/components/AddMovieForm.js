@@ -79,7 +79,7 @@ export default function AddMovieForm({ openModal, setOpenModal, setNotify }) {
             }}
           >
             <Alert onClose={() => setOpen(false)} severity="error">
-              <Typography variant="h6">Title already exists!</Typography>
+              <Typography>Title already exists!</Typography>
             </Alert>
           </Snackbar>
         </Grid>

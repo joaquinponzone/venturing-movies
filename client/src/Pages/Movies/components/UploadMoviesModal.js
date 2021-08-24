@@ -49,9 +49,10 @@ export default function UploadMoviesModal({
     axios
       .post(`http://localhost:3001/movies/upload`, movies)
       .then((res) => {
+        console.log(res);
         setNotify({
           isOpen: true,
-          message: `Movies Added Successfully`,
+          message: `Upload Completed!`,
           type: "success",
         });
         setOpenModal({ ...openModal, upload: false });
@@ -72,7 +73,7 @@ export default function UploadMoviesModal({
           <Controls.Button
             type="submit"
             onSubmit={handleSubmit}
-            variant="contained"
+            variant="outlined"
             text="Upload movies"
           />
         ) : (
@@ -81,6 +82,7 @@ export default function UploadMoviesModal({
             accept=".csv,.xlsx,.xls"
             onChange={handleUpload}
             hidden
+            variant="outlined"
           />
         )}
       </div>

@@ -40,7 +40,7 @@ const uploadMovies = async (req, res) => {
     // Add all movies to DB
     newMoviesList.map(async (element) => {
       try {
-        let newMovie = await Movie.create(element);
+        Movie.create(element);
         console.log(newMovie);
       } catch (error) {
         console.log(error);
