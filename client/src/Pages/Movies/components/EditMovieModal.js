@@ -33,7 +33,7 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
           message: `${res.data.title} Edited Successfully`,
           type: "success",
         });
-        setOpenModal({ ...openModal, edit: false });
+        setOpenModal({ ...openModal, edit: false, item: null });
       })
       .catch((err) => {
         console.log(err);
