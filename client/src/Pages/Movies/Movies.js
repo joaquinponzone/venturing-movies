@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
-    width: "%80",
+    // width: "%60",
     [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(3, 0),
     },
@@ -261,9 +261,7 @@ export default function Movies() {
                         </Controls.ActionButton>
                       </Grid>
                     </TableCell>
-                    <TableCell align="left" width="100%">
-                      {item.title}
-                    </TableCell>
+                    <TableCell align="left">{item.title}</TableCell>
                     <TableCell align="left">{item.year}</TableCell>
                   </TableRow>
                 ))}
