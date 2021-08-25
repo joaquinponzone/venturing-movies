@@ -27,7 +27,7 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
           message: "Deleted Successfully",
           type: "success",
         });
-        setOpenModal({ ...openModal, delete: false });
+        setOpenModal({ ...openModal, delete: false, item: null });
       })
       .catch((err) => console.log(err));
   };
@@ -41,7 +41,7 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
               <WarningIcon fontSize="large" color="secondary" />
             </Box>
             <Box textAlign="center" m={1}>
-              Sure you want to delete {openModal.item.title}?
+              Sure you want to delete {openModal.item?.title}?
             </Box>
           </Typography>
         </Grid>
@@ -49,7 +49,9 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
           <Controls.Button
             text="Cancel"
             variant="outlined"
-            onClick={() => setOpenModal({ ...openModal, delete: false })}
+            onClick={() =>
+              setOpenModal({ ...openModal, delete: false, item: null })
+            }
           />
           <Controls.Button
             text="Delete"
@@ -58,7 +60,7 @@ export default function EditMovieModal({ openModal, setOpenModal, setNotify }) {
             color="secondary"
             onClick={(e) => {
               handleDelete(e);
-              setOpenModal({ ...openModal, delete: false });
+              setOpenModal({ ...openModal, delete: false, item: null });
             }}
           />
         </Grid>

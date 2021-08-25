@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddMovieForm({ openModal, setOpenModal, setNotify }) {
+export default function AddMovieModal({ openModal, setOpenModal, setNotify }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [newMovie, setNewMovie] = useState({
@@ -46,8 +46,8 @@ export default function AddMovieForm({ openModal, setOpenModal, setNotify }) {
 
   return (
     <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
-      <Grid container>
-        <Grid item xs={6}>
+      <Grid container direction="column" alignItems="center">
+        <Grid item>
           <Controls.Input
             name="title"
             onChange={(e) => handleChange(e)}
@@ -68,21 +68,23 @@ export default function AddMovieForm({ openModal, setOpenModal, setNotify }) {
             type="number"
             label="Year"
           />
-          <Button type="submit">Submit</Button>
-          <Snackbar
-            open={open}
-            onClose={() => setOpen(false)}
-            autoHideDuration={4000}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-          >
-            <Alert onClose={() => setOpen(false)} severity="error">
-              <Typography>Title already exists!</Typography>
-            </Alert>
-          </Snackbar>
         </Grid>
+        <Grid item>
+          <Controls.Button text="Submit" variant="outlined" type="submit" />
+        </Grid>
+        <Snackbar
+          open={open}
+          onClose={() => setOpen(false)}
+          autoHideDuration={4000}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+        >
+          <Alert onClose={() => setOpen(false)} severity="error">
+            <Typography>Title already exists!</Typography>
+          </Alert>
+        </Snackbar>
       </Grid>
     </form>
   );

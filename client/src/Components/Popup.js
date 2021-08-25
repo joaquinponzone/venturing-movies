@@ -21,14 +21,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Popup(props) {
-  const { title, children, open, setOpen } = props;
+  const { title, children, open, setOpen, autoClose } = props;
   const classes = useStyles();
+
+  const handleClose = () => {
+    autoClose && setOpen(false);
+  };
 
   return (
     <Dialog
       open={open}
       maxWidth="md"
       classes={{ paper: classes.dialogWrapper }}
+      onClose={handleClose}
     >
       <DialogTitle id="alert-dialog-title" className={classes.dialogTitle}>
         <div style={{ display: "flex" }}>

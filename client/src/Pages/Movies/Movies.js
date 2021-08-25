@@ -19,14 +19,16 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 import LocalMoviesTwoToneIcon from "@material-ui/icons/LocalMoviesTwoTone";
 
 import { Search } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
 
 //Import Components
-import AddMovieForm from "./components/AddMovieForm";
+import AddMovieModal from "./components/AddMovieModal";
 import UploadMoviesModal from "./components/UploadMoviesModal";
+import ViewMovieModal from "./components/ViewMovieModal";
 import EditMovieModal from "./components/EditMovieModal";
 import DeleteMovieModal from "./components/DeleteMovieModal";
 import PageHeader from "../../Components/PageHeader";
@@ -80,11 +82,17 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.light,
     },
     "& tbody td": {
-      fontWeight: "300",
+      fontWeight: "400",
     },
     "& tbody tr:hover": {
       backgroundColor: theme.palette.selection.main,
       cursor: "pointer",
+    },
+  },
+  actionButtons: {
+    width: "50px",
+    [theme.breakpoints.up("md")]: {
+      width: "132px",
     },
   },
   paginationContainer: {
@@ -117,6 +125,7 @@ export default function Movies() {
   const [openModal, setOpenModal] = useState({
     upload: false,
     add: false,
+    view: false,
     edit: false,
     delete: false,
     item: null,
@@ -137,8 +146,6 @@ export default function Movies() {
     message: "",
     type: "",
   });
-
-  useEffect(() => {}, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -226,22 +233,34 @@ export default function Movies() {
                 {movies?.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
-                      <Controls.ActionButton
-                        color="primary"
-                        onClick={() => {
-                          openActionModal(item, "edit");
-                        }}
-                      >
-                        <EditOutlinedIcon fontSize="small" />
-                      </Controls.ActionButton>
-                      <Controls.ActionButton
-                        color="secondary"
-                        onClick={() => {
-                          openActionModal(item, "delete");
-                        }}
-                      >
-                        <CloseIcon fontSize="small" />
-                      </Controls.ActionButton>
+                      <Grid container className={classes.actionButtons}>
+                        <Controls.ActionButton
+                          color="primary"
+                          onClick={() => {
+                            openActionModal(item, "view");
+                          }}
+                        >
+                          <VisibilityIcon fontSize="small" />
+                        </Controls.ActionButton>
+
+                        <Controls.ActionButton
+                          color="primary"
+                          onClick={() => {
+                            openActionModal(item, "edit");
+                          }}
+                        >
+                          <EditOutlinedIcon fontSize="small" />
+                        </Controls.ActionButton>
+
+                        <Controls.ActionButton
+                          color="secondary"
+                          onClick={() => {
+                            openActionModal(item, "delete");
+                          }}
+                        >
+                          <CloseIcon fontSize="small" />
+                        </Controls.ActionButton>
+                      </Grid>
                     </TableCell>
                     <TableCell>{item.title}</TableCell>
                     <TableCell>{item.description}</TableCell>
@@ -266,7 +285,7 @@ export default function Movies() {
               <div className={classes.pageSize}>
                 <Typography
                   variant="subtitle1"
-                  style={{ fontWeight: "300", margin: "1rem" }}
+                  style={{ fontWeight: "400", margin: "1rem" }}
                 >
                   Page Size:{" "}
                 </Typography>
@@ -294,10 +313,17 @@ export default function Movies() {
         <UploadMoviesModal setOpenModal={setOpenModal} setNotify={setNotify} />
       </Popup>
       <Popup title="Add Movie" open={openModal.add} setOpen={setOpenModal}>
-        <AddMovieForm setOpenModal={setOpenModal} setNotify={setNotify} />
+        <AddMovieModal setOpenModal={setOpenModal} setNotify={setNotify} />
       </Popup>
       <Popup title="Edit Movie" open={openModal.edit} setOpen={setOpenModal}>
         <EditMovieModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          setNotify={setNotify}
+        />
+      </Popup>
+      <Popup title="Movie Detail" open={openModal.view} setOpen={setOpenModal}>
+        <ViewMovieModal
           openModal={openModal}
           setOpenModal={setOpenModal}
           setNotify={setNotify}
