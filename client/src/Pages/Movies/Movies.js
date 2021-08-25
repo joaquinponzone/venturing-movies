@@ -90,9 +90,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   actionButtons: {
-    width: "50px",
-    [theme.breakpoints.up("md")]: {
-      width: "132px",
+    width: "132px",
+    [theme.breakpoints.down("xs")]: {
+      width: "53px",
     },
   },
   paginationContainer: {
@@ -167,7 +167,6 @@ export default function Movies() {
   const headCells = [
     { id: "action", label: "Actions" },
     { id: "title", label: "Title" },
-    { id: "description", label: "Description" },
     { id: "year", label: "Release Year" },
   ];
 
@@ -232,7 +231,7 @@ export default function Movies() {
               <TableBody>
                 {movies?.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>
+                    <TableCell align="left">
                       <Grid container className={classes.actionButtons}>
                         <Controls.ActionButton
                           color="primary"
@@ -262,9 +261,10 @@ export default function Movies() {
                         </Controls.ActionButton>
                       </Grid>
                     </TableCell>
-                    <TableCell>{item.title}</TableCell>
-                    <TableCell>{item.description}</TableCell>
-                    <TableCell>{item.year}</TableCell>
+                    <TableCell align="left" width="100%">
+                      {item.title}
+                    </TableCell>
+                    <TableCell align="left">{item.year}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
